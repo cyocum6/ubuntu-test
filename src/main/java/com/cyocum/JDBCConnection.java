@@ -13,14 +13,14 @@ public class JDBCConnection {
     private static final String PASSWORD = "Coyote1985%$";
 
     // get request based on ID
-    public Info getConsole(String id) {
+    public IConsole getConsole(String id) {
 
         String select = "select * from TempData where id = " + id;
         try ( Connection conn = setupConnection()) {
 
             Statement statement = conn.createStatement();
             ResultSet resultSet = statement.executeQuery(select);
-            Info console = new Info();
+            Console console = new Info();
             while (resultSet.next()) {
                 console.setId(resultSet.getLong("ID"));
                 console.setName(resultSet.getString("NAME"));
@@ -33,8 +33,8 @@ public class JDBCConnection {
     }
 
     // get list of objects to fill a table
-    public List<Info> getConsoles() {
-        List<Info> consoles = new ArrayList<>();
+    public List<Console> getConsoles() {
+        List<Console> consoles = new ArrayList<>();
         String select = "select * from TempData";
 
         try ( Connection conn = setupConnection()) {
@@ -43,7 +43,7 @@ public class JDBCConnection {
             ResultSet resultSet = statement.executeQuery(select);
             while (resultSet.next()) {
 
-                Info obj = new Info();
+                Console obj = new Info();
                 obj.setId(resultSet.getLong("ID"));
                 obj.setName(resultSet.getString("NAME"));
 

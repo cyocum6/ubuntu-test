@@ -24,13 +24,13 @@ public final class Util {
         Gson gson = new Gson();
 
         if (param != null && !param.equals("")) {
-            Info console = connection.getConsole(param);
+            Console console = connection.getConsole(param);
             if (console == null) {
                 return failedAttempt();
             }
             jsonResp = gson.toJson(console);
         } else {
-            List<Info> consoles = connection.getConsoles();
+            List<Console> consoles = connection.getConsoles();
             if (consoles.isEmpty()) {
                 return failedAttempt();
             }
