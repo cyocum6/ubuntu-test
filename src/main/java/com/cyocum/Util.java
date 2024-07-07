@@ -1,7 +1,7 @@
 package com.cyocum;
 
 import com.google.gson.Gson;
-import com.cyocum.domain.Console;
+import com.cyocum.name_info.Info;
 import fi.iki.elonen.NanoHTTPD;
 import java.io.IOException;
 import java.util.HashMap;
@@ -24,13 +24,13 @@ public final class Util {
         Gson gson = new Gson();
 
         if (param != null && !param.equals("")) {
-            Console console = connection.getConsole(param);
+            Info console = connection.getConsole(param);
             if (console == null) {
                 return failedAttempt();
             }
             jsonResp = gson.toJson(console);
         } else {
-            List<Console> consoles = connection.getConsoles();
+            List<Info> consoles = connection.getConsoles();
             if (consoles.isEmpty()) {
                 return failedAttempt();
             }
@@ -60,7 +60,10 @@ public final class Util {
                 NO_RESOURCE);
     }
 
+    /*
+    // may be not needed... still working it through
     private static String getIndex(String param) {
         return param.replaceAll("[^0-9]", "");
     }
+    */    
 }
