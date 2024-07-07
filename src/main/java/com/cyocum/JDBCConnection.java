@@ -8,14 +8,14 @@ import java.util.List;
 
 public class JDBCConnection {
 
-    private static final String DB_CONNECTION = "jdbc:mysql://127.0.0.1:3306/consoles";
+    private static final String DB_CONNECTION = "jdbc:mysql://127.0.0.1:3306/tempDB";
     private static final String ROOT = "root";
-    private static final String PASSWORD = "Brady#2019";
+    private static final String PASSWORD = "Coyote1985%$";
 
     // get request based on ID
     public Console getConsole(String id) {
 
-        String select = "select * from console where id = " + id;
+        String select = "select * from TempData where id = " + id;
         try ( Connection conn = setupConnection()) {
 
             Statement statement = conn.createStatement();
@@ -35,7 +35,7 @@ public class JDBCConnection {
     // get list of objects to fill a table
     public List<Console> getConsoles() {
         List<Console> consoles = new ArrayList<>();
-        String select = "select * from console";
+        String select = "select * from TempData";
 
         try ( Connection conn = setupConnection()) {
 
@@ -59,7 +59,7 @@ public class JDBCConnection {
 
     // add a console to the database
     public String addConsole(String name) {
-        String insert = "insert into console (name) values ('" + name + "')";
+        String insert = "insert into TempData (name) values ('" + name + "')";
         try ( Connection conn = setupConnection()) {
             Statement statement = (Statement) conn.createStatement();
             statement.execute(insert);
