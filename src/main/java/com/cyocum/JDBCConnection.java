@@ -20,7 +20,7 @@ public class JDBCConnection {
 
             Statement statement = conn.createStatement();
             ResultSet resultSet = statement.executeQuery(select);
-            Console console = new Info();
+            Console console = new Console();
             while (resultSet.next()) {
                 console.setId(resultSet.getLong("ID"));
                 console.setName(resultSet.getString("NAME"));
@@ -43,7 +43,7 @@ public class JDBCConnection {
             ResultSet resultSet = statement.executeQuery(select);
             while (resultSet.next()) {
 
-                Console obj = new Info();
+                Console obj = new Console();
                 obj.setId(resultSet.getLong("ID"));
                 obj.setName(resultSet.getString("NAME"));
 
