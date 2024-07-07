@@ -59,7 +59,7 @@ public class JDBCConnection {
 
     // add a console to the database
     public String addConsole(String name) {
-        String insert = "insert into TempData (name) values ('" + name + "')";
+        String insert = "insert into TempData (name) values ('" + name + "')\n";
         try ( Connection conn = setupConnection()) {
             Statement statement = (Statement) conn.createStatement();
             statement.execute(insert);
