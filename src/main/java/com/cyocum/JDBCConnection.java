@@ -1,6 +1,6 @@
 package com.cyocum;
 
-import com.cyocum.name_info.Info;
+import com.cyocum.domain.Console;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;

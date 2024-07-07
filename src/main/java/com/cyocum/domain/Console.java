@@ -1,7 +1,7 @@
-package com.cyocum.name_info;
+package com.cyocum.domain;
 
 
-public class Info {
+public class Console {
 
     private Long id;
     private String name;

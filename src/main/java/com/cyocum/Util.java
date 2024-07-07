@@ -1,7 +1,7 @@
 package com.cyocum;
 
 import com.google.gson.Gson;
-import com.cyocum.name_info.Info;
+import com.cyocum.domain.Console;
 import fi.iki.elonen.NanoHTTPD;
 import java.io.IOException;
 import java.util.HashMap;
