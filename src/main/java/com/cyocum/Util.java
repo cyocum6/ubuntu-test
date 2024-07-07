@@ -60,10 +60,10 @@ public final class Util {
                 NO_RESOURCE);
     }
 
-    /*
-    // may be not needed... still working it through
+    
+    // VS Code lies, it's needed
     private static String getIndex(String param) {
         return param.replaceAll("[^0-9]", "");
     }
-    */    
+        
 }
