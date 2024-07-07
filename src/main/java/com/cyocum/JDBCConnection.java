@@ -13,7 +13,7 @@ public class JDBCConnection {
     private static final String PASSWORD = "Coyote1985%$";
 
     // get request based on ID
-    public IConsole getConsole(String id) {
+    public Console getConsole(String id) {
 
         String select = "select * from TempData where id = " + id;
         try ( Connection conn = setupConnection()) {
