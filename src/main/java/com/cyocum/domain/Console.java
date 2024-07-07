@@ -1,9 +1,6 @@
-package com.hilland.domain;
+package com.cyocum.domain;
 
-/**
- *
- * @author jhilland
- */
+
 public class Console {
 
     private Long id;
