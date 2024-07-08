@@ -1,7 +1,7 @@
-package com.cyocum.domain;
+package com.cyocum.classes;
 
 
-public class Console {
+public class Window {
 
     private Long id;
     private String name;

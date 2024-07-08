@@ -1,7 +1,7 @@
 package com.cyocum;
 
 import com.google.gson.Gson;
-import com.cyocum.domain.Console;
+import com.cyocum.classes.Window;
 import fi.iki.elonen.NanoHTTPD;
 import java.io.IOException;
 import java.util.HashMap;
@@ -24,13 +24,13 @@ public final class Util {
         Gson gson = new Gson();
 
         if (param != null && !param.equals("")) {
-            Console console = connection.getConsole(param);
-            if (console == null) {
+            Window window = connection.getConsole(param);
+            if (window == null) {
                 return failedAttempt();
             }
-            jsonResp = gson.toJson(console);
+            jsonResp = gson.toJson(window);
         } else {
-            List<Console> consoles = connection.getConsoles();
+            List<Window> consoles = connection.getConsoles();
             if (consoles.isEmpty()) {
                 return failedAttempt();
             }
