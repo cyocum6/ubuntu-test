@@ -12,8 +12,10 @@ import static fi.iki.elonen.NanoHTTPD.newFixedLengthResponse;
 
 
 public final class Util {
+    // final -> makes non-access modifier for classes
 
-    private static final String NO_RESOURCE = "The requested resource does not exist";
+    private static final String NO_RESOURCE = "The table is empty!";
+        // static if in separate file, else private -> same file
 
     private Util() {
     }

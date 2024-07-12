@@ -12,7 +12,7 @@ public class JDBCConnection {
     private static final String ROOT = "root";
     private static final String PASSWORD = "Coyote1985%$";
 
-    // get request based on ID
+    // get id requested 
     public Window getConsole(String id) {
 
         String select = "select * from TempData where id = " + id;
@@ -57,7 +57,7 @@ public class JDBCConnection {
         return consoles;
     }
 
-    // add a console to the database
+    //              adds ids
     public String addConsole(String name) {
         String insert = "insert into TempData (name) values ('" + name + "')\n";
         try ( Connection conn = setupConnection()) {
@@ -70,9 +70,8 @@ public class JDBCConnection {
         return "Post Successful\n";
     }
 
-    // delete console from database
+    //             delete ids 
     public String deleteConsole(String id) {
-        List<Window> list = getConsoles();
         String insert = "delete from TempData where id = " + id;
         try ( Connection conn = setupConnection()) {
             Statement statement = (Statement) conn.createStatement();

@@ -20,14 +20,14 @@ public class CYocumServer extends NanoHTTPD {
 
     public static void main(String[] args) {
         try {
-
             // create new instance of server
             new CYocumServer();
         } catch (IOException ioe) {
-            System.err.println("Couldn't start server:\n" + ioe);
+            System.err.println("Server failed to start:\n" + ioe);
         }
     }
 
+    // calls Util.java functions
     @Override
     public Response serve(IHTTPSession session) {
         if (session.getMethod() == Method.GET) {
