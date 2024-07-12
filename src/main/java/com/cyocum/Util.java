@@ -39,14 +39,14 @@ public final class Util {
             jsonResp = gson.toJson(consoles);
         }
 
-        return newFixedLengthResponse(jsonResp);
+        return newFixedLengthResponse(jsonResp + "\n");
     }
 
     public static NanoHTTPD.Response performPost(JDBCConnection connection, NanoHTTPD.IHTTPSession session) {
         try {
             session.parseBody(new HashMap<>());
             String result = connection.addConsole(session.getQueryParameterString());
-            return newFixedLengthResponse(result);
+            return newFixedLengthResponse(result + "\n");
         } catch (IOException | NanoHTTPD.ResponseException e) {
             return failedAttempt();
         }
@@ -54,7 +54,7 @@ public final class Util {
 
     public static NanoHTTPD.Response performDelete(JDBCConnection connection, NanoHTTPD.IHTTPSession session) {
         String result = connection.deleteConsole(getIndex(session.getUri()));
-        return newFixedLengthResponse(result);
+        return newFixedLengthResponse(result + "\n");
     }
 
     public static NanoHTTPD.Response failedAttempt() {
