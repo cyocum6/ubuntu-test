@@ -73,7 +73,7 @@ public class JDBCConnection {
     // delete console from database
     public String deleteConsole(String id) {
         List<Window> list = getConsoles();
-        String insert = "delete from console where id = " + id;
+        String insert = "delete from TempData where id = " + id;
         try ( Connection conn = setupConnection()) {
             Statement statement = (Statement) conn.createStatement();
             statement.execute(insert);
