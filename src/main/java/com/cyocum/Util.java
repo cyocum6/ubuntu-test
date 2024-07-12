@@ -39,7 +39,7 @@ public final class Util {
             jsonResp = gson.toJson(consoles);
         }
 
-        return newFixedLengthResponse(jsonResp + "\n");
+        return newFixedLengthResponse(jsonResp + "\n");         // \n for adjusting output on Terminal
     }
 
     public static NanoHTTPD.Response performPost(JDBCConnection connection, NanoHTTPD.IHTTPSession session) {
