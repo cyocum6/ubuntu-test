@@ -32,7 +32,7 @@ public final class Util {
             }
             jsonResp = gson.toJson(window);
         } else {
-            List<Window> consoles = connection.getConsoles();
+            List<Window> consoles = connection.getConsoles();           // to JDCConnection 
             if (consoles.isEmpty()) {
                 return failedAttempt();
             }

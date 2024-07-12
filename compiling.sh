@@ -2,7 +2,6 @@
 
 git fetch
 git pull
-killall java
 mvn compile
 mvn exec:java -Dexec.mainClass="com.cyocum.CYocumServer"
 
