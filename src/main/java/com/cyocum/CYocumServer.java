@@ -23,7 +23,7 @@ public class CYocumServer extends NanoHTTPD {
             // create new instance of server
             new CYocumServer();
         } catch (IOException ioe) {
-            System.err.println("Server failed to start:\n" + ioe);
+            System.err.println("Server failed to start:" + ioe + "\n");
         }
     }
 
