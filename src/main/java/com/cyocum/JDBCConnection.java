@@ -15,7 +15,7 @@ public class JDBCConnection {
     // get id requested 
     public Window getConsole(String id) {
 
-        String select = "select * from TempData where id = " + id + "\n";
+        String select = "select * from TempData where id = " + id;
         try ( Connection conn = setupConnection()) {
 
             Statement statement = conn.createStatement();
@@ -35,7 +35,7 @@ public class JDBCConnection {
     // get list of objects from table
     public List<Window> getConsoles() {
         List<Window> consoles = new ArrayList<>();
-        String select = "select * from TempData\n";
+        String select = "select * from TempData";
 
         try ( Connection conn = setupConnection()) {
 
@@ -59,7 +59,7 @@ public class JDBCConnection {
 
     //              adds ids
     public String addConsole(String name) {
-        String insert = "insert into TempData (name) values ('" + name + "')\n";
+        String insert = "insert into TempData (name) values ('" + name + "')";
         try ( Connection conn = setupConnection()) {
             Statement statement = (Statement) conn.createStatement();
             statement.execute(insert);
@@ -72,7 +72,7 @@ public class JDBCConnection {
 
     //             delete ids 
     public String deleteConsole(String id) {
-        String insert = "delete from TempData where id = " + id + "\n";
+        String insert = "delete from TempData where id = " + id;
         try ( Connection conn = setupConnection()) {
             Statement statement = (Statement) conn.createStatement();
             statement.execute(insert);
