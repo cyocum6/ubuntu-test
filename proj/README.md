@@ -1,5 +1,11 @@
 # ubuntu-test
 
+# required software
+maven apache 4.0.0
+nanohttpd 2.3.1
+google gson 2.9.0
+mysql 8.0.20
+
 # startup server
 mvn exec:java -Dexec.mainClass="com.cyocum.CYocumServer"
   leave terminal alone once connected
