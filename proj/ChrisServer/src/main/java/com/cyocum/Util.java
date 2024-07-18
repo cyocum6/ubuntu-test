@@ -17,7 +17,7 @@ public final class Util {
     private static final String NO_RESOURCE = "The table is empty!\n";
         // static if in separate file, else private -> same file
     private static final String STATE = "state";
-    private static final String TEMP = "temps";
+    private static final String TEMP = "temp";
     //private static final String REPORT = "report";
 
     private Util() {
