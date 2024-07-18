@@ -317,6 +317,27 @@ static void handle_state_get(void) {
     //chunk.size = NULL;
 }
 
+// added 18July 2:03pm
+// handle curl request to know if system should be on or off
+static void handle_state_post(float temp, float morn_lo, float_hi) {
+    // get commands from web server
+    
+    if (temp >= morn_hi){
+      heater_state = OFF;
+      char *state = send_http_request(STATE_URL, NULL, "POST", false);
+      //write_state(&heater_state);
+    }
+    else if (temp <= morn_lo) {
+      heater_state = ON;
+      char *state = send_http_request(STATE_URL, NULL, "POST", true);
+      //write_state(&heater_state);
+    }
+    
+
+    //chunk.response = NULL;
+    //chunk.size = NULL;
+}
+
 ////////////////////////////////////////////////////////////////////
 
 
@@ -346,7 +367,7 @@ static void _run_simulation(void) {
     // Read the heater state.   
     write_state(&heater_state);                  // added bing 18July 8:00am, pushing heater_state to state write prior to tc_read_state
 
-        // toggle heat on or off before increment/decrement       added 18July 7:34am
+    /*    // toggle heat on or off before increment/decrement       added 18July 7:34am
     if (temp >= morn_hi){
       heater_state = OFF;
       write_state(&heater_state);
@@ -355,6 +376,7 @@ static void _run_simulation(void) {
       heater_state = ON;
       write_state(&heater_state);
     }
+    */
     
     tc_error_t err = tc_read_state(STATE_FILENAME, &heater_state);
     if (err != OK) _exit_process(err);
