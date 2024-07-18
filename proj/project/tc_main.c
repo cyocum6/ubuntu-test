@@ -340,11 +340,11 @@ static void _run_simulation(void) {
   // It's a bit cold! Note we're using a float in case we want to be
   // more sophisticated with the temperature management in the future.
   // Right now we just use a linear model.
-  float temp = 64;
+  float temp = 84;
   char value[250]; 
 
   // morning hi/lo temps                         added 18July 7:34am
-  float morn_lo = 60;
+  float morn_lo = 68;
   float morn_hi = 72;
   tc_heater_state_t heater_state = OFF;         // moved from while loop, initial declaration
   syslog(LOG_INFO, "beginning thermocouple simulation");
@@ -352,22 +352,25 @@ static void _run_simulation(void) {
    
     //handle_state_get();
     // Read the heater state.   
-    write_state(heater_state);                  // added bing 18July 8:00am, pushing heater_state to state write prior to tc_read_state
-    tc_error_t err = tc_read_state(STATE_FILENAME, &heater_state);
-    if (err != OK) _exit_process(err);
+    write_state(&heater_state);                  // added bing 18July 8:00am, pushing heater_state to state write prior to tc_read_state
 
-    // toggle heat on or off before increment/decrement       added 18July 7:34am
+        // toggle heat on or off before increment/decrement       added 18July 7:34am
     if (temp >= morn_hi){
       heater_state = OFF;
     }
     else if (temp <= morn_lo) {
       heater_state = ON;
     }
+    
+    tc_error_t err = tc_read_state(STATE_FILENAME, &heater_state);
+    if (err != OK) _exit_process(err);
+
+
 
     // Is the heater on? then increase the temperature one degree.
     // Otherwise, it's getting colder!
     temp = (heater_state == ON) ? temp + 1 : temp - 1;
-    gcvt(temp, 6, value);  
+    gcvt(temp, 6, value);                           // converts float to string
     // Write the temp to the file.
     err = tc_write_temperature(TEMP_FILENAME, temp);
     send_http_request(TEMP_URL, value, "POST", true);
