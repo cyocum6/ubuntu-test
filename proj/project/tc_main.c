@@ -342,6 +342,11 @@ static void _run_simulation(void) {
   // Right now we just use a linear model.
   float temp = 64;
   char value[250]; 
+
+  // morning hi/lo temps                         added 18July 7:34am
+  float morn_lo = 60;
+  float morn_hi = 72;
+
   syslog(LOG_INFO, "beginning thermocouple simulation");
   while(true) {
    
@@ -350,6 +355,14 @@ static void _run_simulation(void) {
     // Read the heater state.   
     tc_error_t err = tc_read_state(STATE_FILENAME, &heater_state);
     if (err != OK) _exit_process(err);
+
+    // toggle heat on or off before increment/decrement       added 18July 7:34am
+    if (temp >= morn_hi){
+      heater_state = OFF;
+    }
+    else if (temp <= morn_lo) {
+      heater_state = ON;
+    }
 
     // Is the heater on? then increase the temperature one degree.
     // Otherwise, it's getting colder!
