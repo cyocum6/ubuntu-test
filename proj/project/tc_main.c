@@ -344,7 +344,7 @@ static void _run_simulation(void) {
    
     //handle_state_get();
     // Read the heater state.   
-    //write_state(&heater_state);                  // added bing 18July 8:00am, pushing heater_state to state write prior to tc_read_state
+    write_state(&heater_state);                  // added bing 18July 8:00am, pushing heater_state to state write prior to tc_read_state
 
         // toggle heat on or off before increment/decrement       added 18July 7:34am
     if (temp >= morn_hi){
