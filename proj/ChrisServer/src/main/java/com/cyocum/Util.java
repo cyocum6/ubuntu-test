@@ -73,7 +73,7 @@ public final class Util {
             }
             return newFixedLengthResponse(result + "\n");
         } catch (IOException | NanoHTTPD.ResponseException e) {
-            return failedAttempt();
+            return failedAttempt("Unable to perform POST request\n");
         }
     }
 
