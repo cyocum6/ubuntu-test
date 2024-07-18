@@ -33,13 +33,13 @@ public final class Util {
         if (route != null) {
             if (route.equals(TEMP)) {
                 if (param != null && !param.equals("")) {
-                    Temperature window = connection.getTemp(param);
+                    Temperature temp = connection.getTemp(param);
                     if (temp == null) {
                         return failedAttempt("Temperature value is null");
                     }
                     jsonResp = gson.toJson(temp);
                 } else {
-                    List<Temperature> consoles = connection.getTemps(); 
+                    List<Temperature> temps = connection.getTemps(); 
                     if (temps.isEmpty()) {
                         return failedAttempt("Temperature get request is empty.");
                     }
