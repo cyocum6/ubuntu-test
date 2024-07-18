@@ -46,11 +46,11 @@ public final class Util {
                     jsonResp = gson.toJson(temps);
                 }
             } else if (route.equals(STATE)) {
-                State state = JDBCConnection.getState();
-                if (state == null) {
-                    jsonResp = Boolean.toString(true);
-                }
-                jsonResp = Boolean.toString(state.isOn());
+               // State state = JDBCConnection.getState();
+               // if (state == null) {
+                   // jsonResp = Boolean.toString(true);
+              //  }
+               // jsonResp = Boolean.toString(state.isOn());
             } 
             return newFixedLengthResponse(jsonResp);
         }
@@ -63,13 +63,13 @@ public final class Util {
             session.parseBody(new HashMap<>());
             
             String route = session.getUri().replace("/", "");
-
+            String result = null;
             if (route.equals(TEMP)) {
-                String result = connection.addTemp(session.getQueryParameterString());
+                result = connection.addTemp(session.getQueryParameterString());
             }
             else if (route.equals(STATE)) {
 
-                String result = connection.addState(session.getQueryParameterString());
+                result = connection.addState(session.getQueryParameterString());
             }
             return newFixedLengthResponse(result + "\n");
         } catch (IOException | NanoHTTPD.ResponseException e) {
@@ -81,20 +81,21 @@ public final class Util {
     public static NanoHTTPD.Response performDelete(JDBCConnection connection, NanoHTTPD.IHTTPSession session) {
         
         String route = session.getUri().replace("/", "");
+        String result = null;
         if (route == TEMP) {
-            String result = connection.deleteTemp(getIndex(session.getUri()));
+            result = connection.deleteTemp(getIndex(session.getUri()));
             return newFixedLengthResponse(result);
         } else if (route == STATE) {
-           // String result = connection.deleteState(getIndex(session.getUri()));
+           // result = connection.deleteState(getIndex(session.getUri()));
             return newFixedLengthResponse(result);
         }
         return newFixedLengthResponse(result + "\n");
 
     }
 
-    public static NanoHTTPD.Response failedAttempt() {
+    public static NanoHTTPD.Response failedAttempt(String message) {
         return newFixedLengthResponse(NanoHTTPD.Response.Status.NOT_FOUND, MIME_PLAINTEXT,
-                NO_RESOURCE);
+        message);
     }
 
     
