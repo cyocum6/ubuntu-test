@@ -362,6 +362,7 @@ static void _run_simulation(void) {
   float morn_hi = 72;
   tc_heater_state_t heater_state = OFF;         // moved from while loop, initial declaration
   write_state(&heater_state);                   // added 18July 1:43pm, saves heater state
+  send_http_request(STATE_URL, heater_state, "POST", true);
   syslog(LOG_INFO, "beginning thermocouple simulation");
   while(true) {  
    
@@ -373,10 +374,12 @@ static void _run_simulation(void) {
     if (temp >= morn_hi){
       heater_state = OFF;
       write_state(&heater_state);
+      send_http_request(STATE_URL, heater_state, "POST", true);
     }
     else if (temp <= morn_lo) {
       heater_state = ON;
       write_state(&heater_state);
+      send_http_request(STATE_URL, heater_state, "POST", true);
     }
     
     
