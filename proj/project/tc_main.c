@@ -349,7 +349,7 @@ static void handle_state_post(float temp, float morn_lo, float_hi) {
  * information, and writes the new temperature to the appropriate
  * location.
  */
-static void _run_simulation(void) {
+static void _run_simulation(void) {  
 
   // It's a bit cold! Note we're using a float in case we want to be
   // more sophisticated with the temperature management in the future.
