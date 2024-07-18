@@ -346,13 +346,13 @@ static void _run_simulation(void) {
   // morning hi/lo temps                         added 18July 7:34am
   float morn_lo = 60;
   float morn_hi = 72;
-
+  tc_heater_state_t heater_state = OFF;         // moved from while loop, initial declaration
   syslog(LOG_INFO, "beginning thermocouple simulation");
-  while(true) {
+  while(true) {  
    
-    tc_heater_state_t heater_state = OFF;
     //handle_state_get();
     // Read the heater state.   
+    write_state(heater_state);                  // added bing 18July 8:00am, pushing heater_state to state write prior to tc_read_state
     tc_error_t err = tc_read_state(STATE_FILENAME, &heater_state);
     if (err != OK) _exit_process(err);
 
