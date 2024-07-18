@@ -182,15 +182,6 @@ static error_t parse_opt(int key, char *arg, struct argp_state *state) {
 
 
 
-
-
-
-
-
-
-
-
-
 /**
  * If we exit the process, we want to sent information on 
  * the reason for the exit to syslog, and then close
@@ -347,19 +338,22 @@ static void _run_simulation(void) {
   float morn_lo = 68;
   float morn_hi = 72;
   tc_heater_state_t heater_state = OFF;         // moved from while loop, initial declaration
+  write_state(&heater_state);                   // added 18July 1:43pm, saves heater state
   syslog(LOG_INFO, "beginning thermocouple simulation");
   while(true) {  
    
     //handle_state_get();
     // Read the heater state.   
-    write_state(&heater_state);                  // added bing 18July 8:00am, pushing heater_state to state write prior to tc_read_state
+    //write_state(&heater_state);                  // added bing 18July 8:00am, pushing heater_state to state write prior to tc_read_state
 
         // toggle heat on or off before increment/decrement       added 18July 7:34am
     if (temp >= morn_hi){
       heater_state = OFF;
+      write_state(&heater_state);
     }
     else if (temp <= morn_lo) {
       heater_state = ON;
+      write_state(&heater_state);
     }
     
     tc_error_t err = tc_read_state(STATE_FILENAME, &heater_state);
