@@ -35,13 +35,13 @@ public final class Util {
                 if (param != null && !param.equals("")) {
                     Temperature temp = connection.getTemp(param);
                     if (temp == null) {
-                        return failedAttempt("Temperature value is null");
+                        return failedAttempt("Temperature value is null\n");
                     }
                     jsonResp = gson.toJson(temp);
                 } else {
                     List<Temperature> temps = connection.getTemps(); 
                     if (temps.isEmpty()) {
-                        return failedAttempt("Temperature get request is empty.");
+                        return failedAttempt("Temperature get request is empty.\n");
                     }
                     jsonResp = gson.toJson(temps);
                 }
@@ -54,7 +54,7 @@ public final class Util {
             } 
             return newFixedLengthResponse(jsonResp);
         }
-        return failedAttempt("Invalid Get request path");
+        return failedAttempt("Invalid Get request path\n");
     }
 
     //perform post request
