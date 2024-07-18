@@ -59,7 +59,7 @@ public class JDBCConnection {
 
     //              adds ids
     public String addTemp(String temp) {
-        String insert = "insert into temp (name) values ('" + temp + "')";
+        String insert = "insert into temp (temp) values ('" + temp + "')";
         try ( Connection conn = setupConnection()) {
             Statement statement = (Statement) conn.createStatement();
             statement.execute(insert);
@@ -84,7 +84,7 @@ public class JDBCConnection {
 
     //             delete ids 
     public String deleteTemp(String id) {
-        String insert = "delete from TempData where id = " + id;
+        String insert = "delete from temp where id = " + id;
         try ( Connection conn = setupConnection()) {
             Statement statement = (Statement) conn.createStatement();
             statement.execute(insert);
