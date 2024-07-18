@@ -40,6 +40,6 @@ public class CYocumServer extends NanoHTTPD {
             return Util.performDelete(connection, session);
         }
 
-        return Util.failedAttempt("Error occur.Failed attempt\n");
+        return Util.failedAttempt("Error occur. Failed attempt\n");
     }
 }
