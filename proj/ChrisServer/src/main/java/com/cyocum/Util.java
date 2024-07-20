@@ -161,8 +161,8 @@ public final class Util {
     {
         State state = new State();
         Settings setting = new Settings();
-        Instance time = new Instance();
-        int hour= time.now().getHourNow();
+        Instant time = Instant.now();
+        int hour= time.getHourNow();
         {
             if (hour >= 18) {
                 String ID = Integer.toString(1);
