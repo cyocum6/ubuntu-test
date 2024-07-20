@@ -162,7 +162,8 @@ public final class Util {
         State state = new State();
         Settings setting = new Settings();
         Instant time = Instant.now();
-        int hour= time.getHourNow();
+        
+        int hour= instant.atZone(ZoneOffset.UTC).getHour();
         {
             if (hour >= 18) {
                 String ID = Integer.toString(1);
