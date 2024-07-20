@@ -94,8 +94,8 @@ public class JDBCConnection {
             Settings setting = new Settings();
             while (resultSet.next()) {
                 setting.setId(resultSet.getInt("ID"));
-                setting.setTemp1(resultSet.getString("TEMP1"));
-                setting.setTemp2(resultSet.getString("TEMP2"));
+                setting.setTemp1(resultSet.getInt("TEMP1"));
+                setting.setTemp2(resultSet.getInt("TEMP2"));
             }
             return setting;
         } catch (SQLException ex) {
@@ -117,8 +117,8 @@ public class JDBCConnection {
 
                 Settings obj = new Settings();
                 obj.setId(resultSet.getInt("ID"));
-                obj.setTemp1(resultSet.getString("TEMP1"));
-                obj.setTemp2(resultSet.getString("TEMP2"));
+                obj.setTemp1(resultSet.getInt("TEMP1"));
+                obj.setTemp2(resultSet.getInt("TEMP2"));
 
                 settings.add(obj);
 
