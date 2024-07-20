@@ -6,11 +6,15 @@ import com.cyocum.classes.Settings;
 import com.cyocum.classes.State;
 import fi.iki.elonen.NanoHTTPD;
 import java.io.IOException;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
+import java.util.time;
+import java.time.*; 
 
 import static fi.iki.elonen.NanoHTTPD.MIME_PLAINTEXT;
 import static fi.iki.elonen.NanoHTTPD.newFixedLengthResponse;
+
 
 
 public final class Util {
@@ -22,6 +26,7 @@ public final class Util {
     private static final String TEMP = "temp";
     private static final String SETTINGS = "settings";
     //private static final String REPORT = "report";
+    private static int TempNow;
 
     private Util() {
     }
@@ -83,6 +88,9 @@ public final class Util {
             String route = session.getUri().replace("/", "");
             String result = null;
             if (route.equals(TEMP)) {
+                String tempt = session.getQueryParameterString();
+                CompareTimeNowToSettings(tempt);
+                TempNow = Integer.parseInt(tempt);
                 result = connection.addTemp(session.getQueryParameterString());
             }
             else if (route.equals(STATE)) {
@@ -132,5 +140,53 @@ public final class Util {
         }
         return null;
     }
-        
+
+ //////////////////////////////////////////////performing settings///////////////////////////////////
+     private static String decodePeriod() {
+        Calendar time = Calendar.getInstance();
+        int hour = time.get(Calendar.HOUR_OF_DAY);
+        if (hour >= 18) {
+            return "EVENING";
+        } else if (hour >= 12) {
+            return "AFTERNOON";
+        } else {
+            return "MORNING";
+        }
+    }
+
+    // for system state time and 
+    private static void CompareTimeNowToSettings(string Temp)
+    {
+        Status state = new State();
+        Settings setting = new Settings();
+        Instance time = Instance.now();
+        int hour= getHourNow();
+        {
+            if (hour >= 18) {
+                string ID = Integer.toString(1);
+                setting = connection.getSetting(ID);
+            } else if (hour >= 12) {
+                string ID = Integer.toString(2);
+                setting = connection.getSetting(ID);               
+            }else
+            {
+                tring ID = Integer.toString(3);
+                setting = connection.getSetting(ID);   
+            }
+        }
+
+        int currentTemp = Integer.toString(Temp);
+        if (currentTemp <= setting.getTemp1())
+        {
+            connection.addState("ON");            
+        }
+        else if (currentTemp > setting.getTemp2()) {
+            connection.addState("OFF");            
+        }
+    }
+
+    public static int getHourNow(){ 
+           Instance time = Instance.now();  
+            int Hour = time.getHour(); 
+    }
 }
