@@ -69,9 +69,10 @@ public class JDBCConnection {
         }
         return "Post Successful\n";
     }
-
-    public String addState(String name) {
-        String insert = "insert into TempData (name) values ('" + name + "')";
+   
+    public String addState(String state) {
+        //String insert = "insert into state (name) values ('" + name + "')";
+        String insert = "update state SET state = '"+ state + "'";
         try ( Connection conn = setupConnection()) {
             Statement statement = (Statement) conn.createStatement();
             statement.execute(insert);

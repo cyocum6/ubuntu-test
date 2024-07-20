@@ -53,8 +53,32 @@ static const char*  STATE_FILENAME  = "/tmp/status";
 static const char*  WORKING_DIR     = "/";
 
 static const long   SLEEP_DELAY     = 5;
+/// ------------------------------------------------------------------------------new addition-----------------------------
+struct StoreGetParam {
+   char *response;
+   size_t size;
+ };
 
+ static size_t call_back(void *data, size_t size, size_t nmemb, void *stringInfo) {
+    size_t realsize = size * nmemb;
+    struct StoreGetParam *mem = (struct StoreGetParam *)stringInfo;
 
+    char *ptr = realloc(mem->response, mem->size + realsize + 1);
+    if(ptr == NULL) {
+        return 0;
+    }
+
+    mem->response = ptr;
+    memcpy(&(mem->response[mem->size]), data, realsize);
+    mem->size += realsize;
+    mem->response[mem->size] = 0;
+
+    return realsize;
+}
+
+ struct StoreGetParam msg = {0};
+//--------------------------------------------------------
+ 
 //from homework
 // arguments will be used for storing values from command line
 struct Arguments {
@@ -85,15 +109,23 @@ int handle_error(char* message, struct argp_state *state) {
 }
 
 // sending the http request
-static int send_http_request(char *url, char *message, char *type, bool verb) {
-    printf("%s request at url: %s\n", type, url);
+static char* send_http_request(char *url, char *message, char *type, bool verb) {
+   msg.response = NULL;
+   msg.size = NULL;
     CURL *curl = curl_easy_init();
     if (curl) {
         CURLcode res;
+        FILE* outputFile = fopen("curloutput.txt", "wb");
         curl_easy_setopt(curl, CURLOPT_URL, url);
         curl_easy_setopt(curl, CURLOPT_CUSTOMREQUEST, type);
+        curl_easy_setopt(curl, CURLOPT_WRITEDATA, outputFile);
+
+        if (strcmp(type, "GET") == 0) {
+            curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, call_back);
+            curl_easy_setopt(curl, CURLOPT_WRITEDATA, (void *)&msg);
+        }
+
         if (verb) {
-            printf("message: %s\n", message);
             curl_easy_setopt(curl, CURLOPT_POSTFIELDS, message);
         } else {
             curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L);
@@ -106,11 +138,10 @@ static int send_http_request(char *url, char *message, char *type, bool verb) {
 
         curl_easy_cleanup(curl);
     } else {
-        return INIT_ERR;
+        return NULL;
     }
-    return OK;
+    return msg.response;
 }
-
 // parsing inputs from options
 static error_t parse_opt(int key, char *arg, struct argp_state *state) {
     struct Arguments *arguments = state->input;
@@ -304,41 +335,31 @@ static int write_state(char *state) {
 }
 
 // handle curl request to know if system should be on or off
-static void handle_state_get(void) {
-    // get commands from web server
-    char *state = send_http_request(STATE_URL, NULL, "GET", false);
-    if (strcmp(state, "true") == 0) {
-        write_state("ON");
-    } else if (strcmp(state, "false") == 0) {
-        write_state("OFF");
+static void handle_state_get()
+{
+  // get commands from web server
+  
+  char *state = send_http_request(STATE_URL, NULL, "GET", false);
+  if(msg.response != NULL)
+  {
+    if(strstr(state, "ON"))
+    {
+    write_state("ON");
+    }
+    else
+    {
+      write_state("OFF");
     }
 
-    //chunk.response = NULL;
-    //chunk.size = NULL;
+  } 
+  else 
+  { 
+    write_state("ON");
+  }
+
+  msg.response = NULL;
+  msg.size = NULL;
 }
-
-/*
-// added 18July 2:03pm
-// handle curl request to know if system should be on or off
-static void handle_state_post(float temp, float morn_lo, float_hi) {
-    // get commands from web server
-    
-    if (temp >= morn_hi){
-      heater_state = OFF;
-      char *state = send_http_request(STATE_URL, NULL, "POST", false);
-      //write_state(&heater_state);
-    }
-    else if (temp <= morn_lo) {
-      heater_state = ON;
-      char *state = send_http_request(STATE_URL, NULL, "POST", true);
-      //write_state(&heater_state);
-    }
-    
-
-    //chunk.response = NULL;
-    //chunk.size = NULL;
-}
-*/
 
 ////////////////////////////////////////////////////////////////////
 
@@ -354,39 +375,37 @@ static void _run_simulation(void) {
   // It's a bit cold! Note we're using a float in case we want to be
   // more sophisticated with the temperature management in the future.
   // Right now we just use a linear model.
-  float temp = 84;
+  float temp = 60;
   char value[250]; 
 
   // morning hi/lo temps                         added 18July 7:34am
-  float morn_lo = 68;
-  float morn_hi = 72;
+  float morn_lo = 50;
+  float morn_hi = 97;
   tc_heater_state_t heater_state = OFF;         // moved from while loop, initial declaration
-  write_state(&heater_state);                   // added 18July 1:43pm, saves heater state
-  send_http_request(STATE_URL, heater_state, "POST", true);
+  //write_state("OFF");                  // added 18July 1:43pm, saves heater state
+  //handle_state_get(&heater_state);
+ 
+  //send_http_request(STATE_URL, heater_state, "POST", true);
   syslog(LOG_INFO, "beginning thermocouple simulation");
   while(true) {  
    
-    //handle_state_get();
+    handle_state_get();
     // Read the heater state.   
-    write_state(&heater_state);                  // added bing 18July 8:00am, pushing heater_state to state write prior to tc_read_state
+    //write_state(&heater_state);                  // added bing 18July 8:00am, pushing heater_state to state write prior to tc_read_state
 
         // toggle heat on or off before increment/decrement       added 18July 7:34am
+     
     if (temp >= morn_hi){
-      heater_state = OFF;
-      write_state(&heater_state);
-      send_http_request(STATE_URL, heater_state, "POST", true);
+      heater_state = OFF;     
+      //send_http_request(STATE_URL, heater_state, "POST", true);
     }
     else if (temp <= morn_lo) {
-      heater_state = ON;
-      write_state(&heater_state);
-      send_http_request(STATE_URL, heater_state, "POST", true);
+      heater_state = ON;      
+      //send_http_request(STATE_URL, heater_state, "POST", false);
     }
-    
-    
+
     tc_error_t err = tc_read_state(STATE_FILENAME, &heater_state);
     if (err != OK) _exit_process(err);
-
-
 
     // Is the heater on? then increase the temperature one degree.
     // Otherwise, it's getting colder!
@@ -394,8 +413,11 @@ static void _run_simulation(void) {
     gcvt(temp, 6, value);                           // converts float to string
     // Write the temp to the file.
     err = tc_write_temperature(TEMP_FILENAME, temp);
-    send_http_request(TEMP_URL, value, "POST", true);
+    send_http_request(TEMP_URL, value, "POST", true);   
+    send_http_request(STATE_URL, &heater_state, "POST", true);
+
     if (err != OK) _exit_process(err);
+    
 
     // Take a bit of a nap.
     sleep(SLEEP_DELAY);
@@ -463,8 +485,11 @@ int main(int argc, char **argv) {
         // parse the arguments
         argp_parse(&argp, argc, argv, 0, 0, &arguments);
     }
+    else 
+    {
   // Daemonize the process.
   _daemonize();
+    }
 
   // Set up appropriate files if they don't exist.
   _configure();
