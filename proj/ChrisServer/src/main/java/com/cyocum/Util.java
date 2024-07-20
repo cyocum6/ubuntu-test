@@ -47,11 +47,11 @@ public final class Util {
                     jsonResp = gson.toJson(temps);
                 }
             } else if (route.equals(STATE)) {
-            State state = connection.getState();
-            if (state == null) {
-            jsonResp = Boolean.toString(true);
-            }
-            jsonResp = Boolean.toString(state.isOn());
+                State state = connection.getState();
+                if (state == null) {
+                    jsonResp = "ON";
+                }
+                jsonResp = gson.toJson(state);
             } 
             return newFixedLengthResponse(jsonResp);
         }

@@ -11,7 +11,7 @@ public class State {
     }
 
     public void setState(String state) {
-        this.temp = state;
+        this.state = state;
     }
 
 }
