@@ -9,7 +9,6 @@ import java.io.IOException;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
-import java.util.time;
 import java.time.*; 
 
 import static fi.iki.elonen.NanoHTTPD.MIME_PLAINTEXT;
@@ -26,7 +25,7 @@ public final class Util {
     private static final String TEMP = "temp";
     private static final String SETTINGS = "settings";
     //private static final String REPORT = "report";
-    private static int TempNow;
+   
 
     private Util() {
     }
@@ -155,22 +154,22 @@ public final class Util {
     }
 
     // for system state time and 
-    private static void CompareTimeNowToSettings(string Temp)
+    private static void CompareTimeNowToSettings(String Temp)
     {
-        Status state = new State();
+        State state = new State();
         Settings setting = new Settings();
-        Instance time = Instance.now();
-        int hour= getHourNow();
+        Instance time = new Instance();
+        int hour= time.now().getHourNow();
         {
             if (hour >= 18) {
-                string ID = Integer.toString(1);
+                String ID = Integer.toString(1);
                 setting = connection.getSetting(ID);
             } else if (hour >= 12) {
-                string ID = Integer.toString(2);
+                String ID = Integer.toString(2);
                 setting = connection.getSetting(ID);               
             }else
             {
-                tring ID = Integer.toString(3);
+                String ID = Integer.toString(3);
                 setting = connection.getSetting(ID);   
             }
         }
