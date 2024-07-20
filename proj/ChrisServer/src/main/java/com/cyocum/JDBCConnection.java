@@ -2,6 +2,7 @@ package com.cyocum;
 
 import com.cyocum.classes.Temperature;
 import com.cyocum.classes.State;
+import com.cyocum.classes.Settings;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +14,7 @@ public class JDBCConnection {
     private static final String ROOT = "root";
     private static final String PASSWORD = "Coyote1985%$";
 
-    
+
 
     ////////////////////////////////                 GET                  /////////////////////////////
     // get id requested 
@@ -79,6 +80,59 @@ public class JDBCConnection {
         }
         return null;
     }
+
+
+
+
+    public Settings getSetting(String id) {
+
+        String select = "select * from settings where id = " + id;
+        try ( Connection conn = setupConnection()) {
+
+            Statement statement = conn.createStatement();
+            ResultSet resultSet = statement.executeQuery(select);
+            Settings setting = new Settings();
+            while (resultSet.next()) {
+                setting.setId(resultSet.getInt("ID"));
+                setting.setTemp1(resultSet.getString("TEMP1"));
+                setting.setTemp2(resultSet.getString("TEMP2"));
+            }
+            return setting;
+        } catch (SQLException ex) {
+            System.err.format("SQL State: %s\n%s", ex.getSQLState(), ex.getMessage());
+        }
+        return null;
+    }
+
+    // get list of objects from table
+    public List<Settings> getSettings() {
+        List<Settings> settings = new ArrayList<>();
+        String select = "select * from settings";
+
+        try ( Connection conn = setupConnection()) {
+
+            Statement statement = conn.createStatement();
+            ResultSet resultSet = statement.executeQuery(select);
+            while (resultSet.next()) {
+
+                Settings obj = new Settings();
+                obj.setId(resultSet.getInt("ID"));
+                obj.setTemp1(resultSet.getString("TEMP1"));
+                obj.setTemp2(resultSet.getString("TEMP2"));
+
+                settings.add(obj);
+
+            }
+
+        } catch (SQLException ex) {
+            System.err.format("SQL State: %s\n%s", ex.getSQLState(), ex.getMessage());
+        }
+        return settings;
+    }
+
+
+
+
 
 
     ///////////////                       ADD                   ////////////////////

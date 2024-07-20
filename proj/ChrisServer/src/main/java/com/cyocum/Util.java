@@ -2,6 +2,7 @@ package com.cyocum;
 
 import com.google.gson.Gson;
 import com.cyocum.classes.Temperature;
+import com.cyocum.classes.Settings;
 import com.cyocum.classes.State;
 import fi.iki.elonen.NanoHTTPD;
 import java.io.IOException;
@@ -19,6 +20,7 @@ public final class Util {
         // static if in separate file, else private -> same file
     private static final String STATE = "state";
     private static final String TEMP = "temp";
+    private static final String SETTINGS = "settings";
     //private static final String REPORT = "report";
 
     private Util() {
@@ -53,7 +55,21 @@ public final class Util {
                     return failedAttempt("state get request is empty.\n");
                 }
                 jsonResp = gson.toJson(state);
-            } 
+            } else if (route.equals(SETTINGS)) {
+                if (param != null && !param.equals("")) {
+                    Settings setting = connection.getSetting(param);
+                    if (setting == null) {
+                        return failedAttempt("Settings value is null\n");
+                    }
+                    jsonResp = gson.toJson(setting);
+                } else {
+                    List<Settings> settings = connection.getSettings(); 
+                    if (settings.isEmpty()) {
+                        return failedAttempt("Settings get request is empty.\n");
+                    }
+                    jsonResp = gson.toJson(settings);
+                }
+            }
             return newFixedLengthResponse(jsonResp);
         }
         return failedAttempt("Invalid Get request path\n");
@@ -111,6 +127,8 @@ public final class Util {
             return TEMP;
         } else if (param.contains(STATE)) {
             return STATE;
+        }else if (param.contains(SETTINGS)) {
+            return SETTINGS;
         }
         return null;
     }
