@@ -152,8 +152,8 @@ public class JDBCConnection {
     }
    
     public String addState(String state) {
-        //String insert = "insert into state (name) values ('" + name + "')";
-        String insert = "update state SET state = '"+ state + "'";
+        String insert = "insert into state (state) values ('" + state + "')";
+        //String insert = "update state SET state = '"+ state + "'";
         try ( Connection conn = setupConnection()) {
             Statement statement = (Statement) conn.createStatement();
             statement.execute(insert);
