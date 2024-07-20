@@ -152,8 +152,12 @@ public final class Util {
         }
     }
 
+    ///FOR SETTING
+    //ID: 1 is for morning
+    //ID : 2 is for afternoon
+    //ID :3 is for evening
     // for system state time and 
-    private  void CompareTimeNowToSettings(JDBCConnection connection,String Temp)
+    private  static void CompareTimeNowToSettings(JDBCConnection connection,String Temp)
     {
         State state = new State();
         Settings setting = new Settings();
