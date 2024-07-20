@@ -2,6 +2,7 @@ package com.cyocum;
 
 import com.google.gson.Gson;
 import com.cyocum.classes.Temperature;
+import com.cyocum.classes.State;
 import fi.iki.elonen.NanoHTTPD;
 import java.io.IOException;
 import java.util.HashMap;
@@ -46,11 +47,11 @@ public final class Util {
                     jsonResp = gson.toJson(temps);
                 }
             } else if (route.equals(STATE)) {
-               // State state = JDBCConnection.getState();
-               // if (state == null) {
-                   // jsonResp = Boolean.toString(true);
-              //  }
-               // jsonResp = Boolean.toString(state.isOn());
+            State state = connection.getState();
+            if (state == null) {
+            jsonResp = Boolean.toString(true);
+            }
+            jsonResp = Boolean.toString(state.isOn());
             } 
             return newFixedLengthResponse(jsonResp);
         }

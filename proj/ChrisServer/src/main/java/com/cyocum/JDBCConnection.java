@@ -1,6 +1,7 @@
 package com.cyocum;
 
 import com.cyocum.classes.Temperature;
+import com.cyocum.classes.State;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,6 +13,9 @@ public class JDBCConnection {
     private static final String ROOT = "root";
     private static final String PASSWORD = "Coyote1985%$";
 
+    
+
+    ////////////////////////////////                 GET                  /////////////////////////////
     // get id requested 
     public Temperature getTemp(String id) {
 
@@ -57,6 +61,28 @@ public class JDBCConnection {
         return consoles;
     }
 
+    // get state
+    public State getState() {
+
+        String select = "select * from state" ;
+        try ( Connection conn = setupConnection()) {
+
+            Statement statement = conn.createStatement();
+            ResultSet resultSet = statement.executeQuery(select);
+            State state = new State();
+            while (resultSet.next()) {               
+                state.setState(resultSet.getString("STATE"));
+            }
+            return state;
+        } catch (SQLException ex) {
+            System.err.format("SQL State: %s\n%s", ex.getSQLState(), ex.getMessage());
+        }
+        return null;
+    }
+
+
+    ///////////////                       ADD                   ////////////////////
+
     //              adds ids
     public String addTemp(String temp) {
         String insert = "insert into temp (temp) values ('" + temp + "')";
@@ -82,6 +108,9 @@ public class JDBCConnection {
         }
         return "Post Successful\n";
     }
+
+   
+    //////////////////////                      DELETE                //////////////////////
 
     //             delete ids 
     public String deleteTemp(String id) {
