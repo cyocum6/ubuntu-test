@@ -49,7 +49,8 @@ public final class Util {
             } else if (route.equals(STATE)) {
                 State state = connection.getState();
                 if (state == null) {
-                    jsonResp = "ON";
+                    //jsonResp = "ON";
+                    return failedAttempt("state get request is empty.\n");
                 }
                 jsonResp = gson.toJson(state);
             } 
