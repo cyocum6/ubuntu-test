@@ -164,7 +164,7 @@ public final class Util {
         Settings setting = new Settings();
         Instant time = Instant.now();
         
-        int hour= instant.atZone(ZoneOffset.UTC).getHour();
+        int hour= time.atZone(ZoneOffset.UTC).getHour();
         {
             if (hour >= 18) {
                 String ID = Integer.toString(1);
@@ -179,7 +179,7 @@ public final class Util {
             }
         }
 
-        int currentTemp = Integer.toString(Temp);
+        int currentTemp = Integer.parseInt(Temp);
         if (currentTemp <= setting.getTemp1())
         {
             connection.addState("ON");            
