@@ -88,8 +88,7 @@ public final class Util {
             String result = null;
             if (route.equals(TEMP)) {
                 String tempt = session.getQueryParameterString();
-                CompareTimeNowToSettings(tempt);
-                TempNow = Integer.parseInt(tempt);
+                CompareTimeNowToSettings(connection,tempt);               
                 result = connection.addTemp(session.getQueryParameterString());
             }
             else if (route.equals(STATE)) {
@@ -154,7 +153,7 @@ public final class Util {
     }
 
     // for system state time and 
-    private static void CompareTimeNowToSettings(String Temp)
+    private  void CompareTimeNowToSettings(JDBCConnection connection,String Temp)
     {
         State state = new State();
         Settings setting = new Settings();
@@ -183,9 +182,5 @@ public final class Util {
             connection.addState("OFF");            
         }
     }
-
-    public static int getHourNow(){ 
-           Instance time = Instance.now();  
-            int Hour = time.getHour(); 
-    }
+    
 }
