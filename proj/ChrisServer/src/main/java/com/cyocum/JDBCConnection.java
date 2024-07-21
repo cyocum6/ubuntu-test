@@ -165,6 +165,21 @@ public class JDBCConnection {
         return "Post Successful\n";
     }
 
+    public String addSetting(Setting setting) {
+        String insert = "insert into settings (id, temp1, temp2) values ('" + setting.getId()+ "," 
+            + setting.getTemp1() + "," + setting.getTemp2() + "')";
+        
+        //String insert = "update state SET state = '"+ state + "'";
+        try ( Connection conn = setupConnection()) {
+            Statement statement = (Statement) conn.createStatement();
+            statement.execute(insert);
+        } catch (SQLException ex) {
+            System.err.format("SQL State: %s\n%s", ex.getSQLState(), ex.getMessage());
+            return "Post Failed\n";
+        }
+        return "Post Successful\n";
+    }
+
    
     //////////////////////                      DELETE                //////////////////////
 

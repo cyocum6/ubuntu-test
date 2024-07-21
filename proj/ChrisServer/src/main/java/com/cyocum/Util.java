@@ -9,8 +9,7 @@ import java.io.IOException;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
-import java.time.*; 
-import java.time.Instant;
+import java.time.*;
 
 import static fi.iki.elonen.NanoHTTPD.MIME_PLAINTEXT;
 import static fi.iki.elonen.NanoHTTPD.newFixedLengthResponse;
@@ -96,6 +95,12 @@ public final class Util {
 
                 result = connection.addState(session.getQueryParameterString());
             }
+            else if (route.equals(SETTINGS)) {
+                Settings setting = new Settings();
+                setting = parseRouteSettings(session.getQueryParameterString(), route);
+
+                result = connection.addSetting(setting);
+            }
             return newFixedLengthResponse(result + "\n");
         } catch (IOException | NanoHTTPD.ResponseException e) {
             return failedAttempt("Unable to perform POST request\n");
@@ -154,7 +159,7 @@ public final class Util {
     }
 
     ///FOR SETTING
-    //ID: 1 is for morning
+    //ID: 1 is for mornings
     //ID : 2 is for afternoon
     //ID :3 is for evening
     // for system state time and 
@@ -187,6 +192,21 @@ public final class Util {
         else if (currentTemp > setting.getTemp2()) {
             connection.addState("OFF");            
         }
+    }
+
+     // temp post requirement : temp1 is low, temp2 is high
+    // 1,temp,temp2 (morning)
+    // 2,temp,temp2 (afternoon)
+    // 3,temp,temp2 (evening)
+    private static Settings parseRouteSettings(String input, String route) {
+        if (route.equals(SETTINGS)) {
+            String[] values = input.split(",");
+            String id = values[0];
+            int temp1 = Integer.parseInt(values[1]);
+            int temp2 = Integer.parseInt(values[2]);
+            return new Settings(id ,temp1, temp2);
+        } 
+        return null;
     }
     
 }

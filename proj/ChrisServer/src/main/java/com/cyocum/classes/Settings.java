@@ -7,6 +7,13 @@ public class Settings{
     private int temp1;
     private int temp2;
 
+    public Settings(int id, int temp1, int temp2)
+    {
+        this.id = id;
+        this.temp1 = temp1;
+        this.temp2 = temp2;
+    }
+
     public int getId() {
         return id;
     }
