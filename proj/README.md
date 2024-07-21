@@ -1,7 +1,7 @@
 Chris Yocum     July 20, 2024
 
-Installation Guidance
-  see below Self-Assessment
+see below Self-Assessment
+verify QEMU operational and AWS site can be reached prior to testing
 
 Software Versions:
   busybox-1.36.1
@@ -27,19 +27,12 @@ Self-Assessment:
   A. Client device does boot, 
   B. program does run, 
   C. boot
-    a. did not asses boot prior to buildroot login, 
-    b. did and DOES run upon buildroot login (./tcsimd not needed if S80 file placed properly),
+    a. does run upon buildroot login and QEMU launch (./tcsimd not needed if S80 file placed properly),
        justification - upon factory software installation, software will auto boot upon user power on via USB adapter plugin
   D. handles temp correctly to server
-  E. Status does not transmit, issue exists with thermocouple simulation
-    a. provided thermocouple simulation note says OFF by default
-    b. in investigation, messages show that state is unknown and defaults to ON
-       "we have an unknown heater state; assuming to ON."
-    c. confusion on how to get provided simulation to show ON and state known/ why OFF not registered as intended
-  F. Estimated completion - satisifies 80% for 
-     "The program runs, but doesn't pay attention to status file, or doesn't handle programs correctly."
-
-
+  E. Status transmits, toggles upon max or min temp reached
+  F. Morning, noon and night min/max temps in settings table
+  
 
 Installation Guidance:
   Initiating QEMU:
@@ -64,6 +57,7 @@ Installation Guidance:
     L.	Transfer daemon to init		mv S80tcsimd /etc/init.d
     O.	Reboot QEMU for daemon to load
         a.	Else start tcsmid manually	./tcsimd
+        b.  Verify killall tcsimd if wanting to stop incrementation
 
 Initiating the Server: 
     A.	Connect to the server			

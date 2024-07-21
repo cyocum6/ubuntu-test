@@ -345,17 +345,22 @@ static void handle_state_get()
     if(strstr(state, "ON"))
     {
     write_state("ON");
+    send_http_request(STATE_URL, "ON", "POST", true);
+    
     }
     else
     {
       write_state("OFF");
+      send_http_request(STATE_URL, "OFF", "POST", true);
     }
 
   } 
   else 
   { 
     write_state("ON");
+    send_http_request(STATE_URL, "ON", "POST", true);
   }
+  
 
   msg.response = NULL;
   msg.size = NULL;
@@ -414,8 +419,7 @@ static void _run_simulation(void) {
     // Write the temp to the file.
     err = tc_write_temperature(TEMP_FILENAME, temp);
     send_http_request(TEMP_URL, value, "POST", true);   
-    send_http_request(STATE_URL, &heater_state, "POST", true);
-
+    
     if (err != OK) _exit_process(err);
     
 
