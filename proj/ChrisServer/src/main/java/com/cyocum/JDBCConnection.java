@@ -160,7 +160,7 @@ public class JDBCConnection {
             statement.execute(insert);
         } catch (SQLException ex) {
             System.err.format("SQL State: %s\n%s", ex.getSQLState(), ex.getMessage());
-            return "Post Failed\n";
+            return "Post Failed.\n";
         }
         return "Post Successful\n";
     }
@@ -181,7 +181,7 @@ public class JDBCConnection {
             statement.execute(insert);
         } catch (SQLException ex) {
             System.err.format("SQL State: %s\n%s", ex.getSQLState(), ex.getMessage());
-            return "Post Failed\n";
+            return "Post Failed. Please make sure the ID is not already in the table.\n";
         }
         return "Post Successful\n";
     }
@@ -192,6 +192,18 @@ public class JDBCConnection {
     //             delete ids 
     public String deleteTemp(String id) {
         String insert = "delete from temp where id = " + id;
+        try ( Connection conn = setupConnection()) {
+            Statement statement = (Statement) conn.createStatement();
+            statement.execute(insert);
+        } catch (SQLException ex) {
+            System.err.format("SQL State: %s\n%s", ex.getSQLState(), ex.getMessage());
+            return "Delete Failed\n";
+        }
+        return "Delete Successful\n";
+    }
+
+    public String deleteSetting(String id) {
+        String insert = "delete from settings where id = " + id;
         try ( Connection conn = setupConnection()) {
             Statement statement = (Statement) conn.createStatement();
             statement.execute(insert);

@@ -119,6 +119,11 @@ public final class Util {
            // result = connection.deleteState(getIndex(session.getUri()));
             return newFixedLengthResponse(result);
         }
+        else if (route == SETTINGS){
+             result = connection.deleteSetting(getIndex(session.getUri()));
+             return newFixedLengthResponse(result);
+         }
+        
         return newFixedLengthResponse(result + "\n");
 
     }
