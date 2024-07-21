@@ -15,7 +15,7 @@ public class CYocumServer extends NanoHTTPD {
         super(8080);
         connection = new JDBCConnection();
         start(NanoHTTPD.SOCKET_READ_TIMEOUT, false);
-        System.out.println("\nRunning! Point your browsers to http://3.139.156.162:8080/ \n");
+        System.out.println("\nRunning! Open your browsers to http://3.139.156.162:8080/ \n");
     }
 
     public static void main(String[] args) {

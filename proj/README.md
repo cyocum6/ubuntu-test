@@ -2,6 +2,7 @@ Chris Yocum     July 20, 2024
 
 see below Self-Assessment
 verify QEMU operational and AWS site can be reached prior to testing
+Installation Guidance is below
 
 Software Versions:
   busybox-1.36.1
@@ -14,7 +15,18 @@ Software Versions:
   apache maven 3.9.8 (server)
   MySQL mysql  Ver 8.0.37-0ubuntu0.24.04.1 for Linux on x86_64 ((Ubuntu)) 
   Vagrant 2.4.1
-  
+
+Server Addresses:
+  http://3.139.156.162:8080/temps       (/temp redirects to temps)
+      displays {"id":6092,"temp":"67"}]       (give or take on the ID)
+  http://3.139.156.162:8080/status
+      displays {"state":"ON"}
+  http://3.139.156.162:8080/settings
+      displays [{"id":1,"temp1":55,"temp2":65},{"id":2,"temp1":65,"temp2":75},{"id":3,"temp1":60,"temp2":70}]
+
+Posting via Terminal:
+  curl -X POST http://3.139.156.162:8080/status -d ON     // can be used for ON/OFF
+    
 
 Grading Criteria:
   110%: All the below and you use HTTPS to communicate with the cloud!

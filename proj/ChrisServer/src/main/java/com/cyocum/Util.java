@@ -79,7 +79,7 @@ public final class Util {
         return failedAttempt("Invalid Get request path\n");
     }
 
-    //perform post request
+    //  perform post request
     public static NanoHTTPD.Response performPost(JDBCConnection connection, NanoHTTPD.IHTTPSession session) {
         try {
             session.parseBody(new HashMap<>());
@@ -107,7 +107,7 @@ public final class Util {
         }
     }
 
-    //perform delete request
+    //  perform delete request
     public static NanoHTTPD.Response performDelete(JDBCConnection connection, NanoHTTPD.IHTTPSession session) {
         
         String route = session.getUri().replace("/", "");
@@ -150,7 +150,7 @@ public final class Util {
         return null;
     }
 
- //////////////////////////////////////////////performing settings///////////////////////////////////
+ /////////////////////////////              Performing Settings            ////////////////////////////////
      private static String decodePeriod() {
         Calendar time = Calendar.getInstance();
         int hour = time.get(Calendar.HOUR_OF_DAY);

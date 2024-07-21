@@ -41,7 +41,7 @@ static char doc[] = "Performs http request for get, post, delete or put.";
 //other resources
 // params, move to config file
 static const char* STATE_URL = "http://3.139.156.162:8080/state";
-static const char* TEMP_URL = "http://3.139.156.162:8080/temp";
+static const char* TEMP_URL = "http://3.139.156.162:8080/temps";
 static const char* REPORT_URL = "http://3.139.156.162:8080/report";
 //
 
@@ -383,12 +383,8 @@ static void _run_simulation(void) {
   float temp = 60;
   char value[250]; 
 
-  // morning hi/lo temps                         added 18July 7:34am
-  float morn_lo = 50;
-  float morn_hi = 97;
   tc_heater_state_t heater_state = OFF;         // moved from while loop, initial declaration
-  //write_state("OFF");                  // added 18July 1:43pm, saves heater state
-  //handle_state_get(&heater_state);
+
  
   //send_http_request(STATE_URL, heater_state, "POST", true);
   syslog(LOG_INFO, "beginning thermocouple simulation");
@@ -396,10 +392,6 @@ static void _run_simulation(void) {
    
     handle_state_get();
     // Read the heater state.   
-    //write_state(&heater_state);                  // added bing 18July 8:00am, pushing heater_state to state write prior to tc_read_state
-
-        // toggle heat on or off before increment/decrement       added 18July 7:34am
-     
     if (temp >= morn_hi){
       heater_state = OFF;     
       //send_http_request(STATE_URL, heater_state, "POST", true);

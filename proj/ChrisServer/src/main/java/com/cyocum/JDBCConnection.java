@@ -63,7 +63,7 @@ public class JDBCConnection {
         return consoles;
     }
 
-    // get state
+    ////////////////                 GET                   //////////////////
     public State getState() {
 
         String select = "select * from state" ;
@@ -166,16 +166,10 @@ public class JDBCConnection {
     }
 
     public String addSetting(Settings setting) {
-        //String insert = "insert into settings (id, temp1, temp2) values ('" + setting.getId()+ "," 
-            //+ setting.getTemp1() + "," + setting.getTemp2() + "')";
-
-
-
-            String insert = "insert into settings (id, temp1, temp2) values (" + setting.getId() +
+        String insert = "insert into settings (id, temp1, temp2) values (" + setting.getId() +
             "," + setting.getTemp1() + "," + setting.getTemp2() + ")";
 
-        
-        //String insert = "update state SET state = '"+ state + "'";
+
         try ( Connection conn = setupConnection()) {
             Statement statement = (Statement) conn.createStatement();
             statement.execute(insert);
