@@ -166,8 +166,14 @@ public class JDBCConnection {
     }
 
     public String addSetting(Settings setting) {
-        String insert = "insert into settings (id, temp1, temp2) values ('" + setting.getId()+ "," 
-            + setting.getTemp1() + "," + setting.getTemp2() + "')";
+        //String insert = "insert into settings (id, temp1, temp2) values ('" + setting.getId()+ "," 
+            //+ setting.getTemp1() + "," + setting.getTemp2() + "')";
+
+
+
+            String insert = "insert into settings (id, temp1, temp2) values (" + setting.getId() +
+            "," + setting.getTemp1() + "," + setting.getTemp2() + ")";
+
         
         //String insert = "update state SET state = '"+ state + "'";
         try ( Connection conn = setupConnection()) {
