@@ -67,11 +67,12 @@ public class JDBCConnection {
     public State getState() {
 
         String select = "select * from state" ;
+        State state = new State();
         try ( Connection conn = setupConnection()) {
 
             Statement statement = conn.createStatement();
             ResultSet resultSet = statement.executeQuery(select);
-            State state = new State();
+           
             while (resultSet.next()) {               
                 state.setState(resultSet.getString("STATE"));
             }
@@ -79,7 +80,7 @@ public class JDBCConnection {
         } catch (SQLException ex) {
             System.err.format("SQL State: %s\n%s", ex.getSQLState(), ex.getMessage());
         }
-        return null;
+        return state;
     }
 
 
