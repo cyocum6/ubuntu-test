@@ -7,6 +7,9 @@ public class Settings{
     private int temp1;
     private int temp2;
 
+    public Settings()
+   {}
+
     public Settings(int id, int temp1, int temp2)
     {
         this.id = id;

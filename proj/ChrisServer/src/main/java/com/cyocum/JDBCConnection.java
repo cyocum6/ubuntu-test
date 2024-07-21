@@ -165,7 +165,7 @@ public class JDBCConnection {
         return "Post Successful\n";
     }
 
-    public String addSetting(Setting setting) {
+    public String addSetting(Settings setting) {
         String insert = "insert into settings (id, temp1, temp2) values ('" + setting.getId()+ "," 
             + setting.getTemp1() + "," + setting.getTemp2() + "')";
         

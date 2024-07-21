@@ -201,7 +201,7 @@ public final class Util {
     private static Settings parseRouteSettings(String input, String route) {
         if (route.equals(SETTINGS)) {
             String[] values = input.split(",");
-            String id = values[0];
+            String id = Integer.parseInt(values[0]);
             int temp1 = Integer.parseInt(values[1]);
             int temp2 = Integer.parseInt(values[2]);
             return new Settings(id ,temp1, temp2);
